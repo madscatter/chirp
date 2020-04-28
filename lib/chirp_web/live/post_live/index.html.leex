@@ -1,0 +1,18 @@
+<div class="max-w-4xl m-auto">
+<h1 class="text-5xl">TimeLine</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, ChirpWeb.PostLive.FormComponent,
+    id: @post.id || :new,
+    title: @page_title,
+    action: @live_action,
+    post: @post,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+<div id="posts" phx-update="prepend" class="m-2">
+  <%= for post <- @posts do %>
+    <%= live_component @socket, ChirpWeb.PostLive.PostComponent, id: post.id, post: post %>
+  <% end %>
+</div>
+<span class="text-4xl text-blue-700"><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %></span>
+</div>
